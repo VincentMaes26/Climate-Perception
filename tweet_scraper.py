@@ -5,7 +5,6 @@ import pandas as pd
 import logging
 import datetime
 
-logging.basicConfig(filename='{}.log'.format(str(datetime.datetime.now)),level=logging.DEBUG, format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
 
 # Returns true if retweet or reply
 def isRetweet(tweet):
@@ -46,7 +45,7 @@ def format_tweet(tweet):
         return
 
 # Gets tweets from api based on query word
-def get_tweets(start_date, end_date):
+def get_tweets(start, end):
     # Gets authentication details from json file
     with open("twitter_credentials.json", "r") as file:
         creds = json.load(file)
@@ -56,18 +55,19 @@ def get_tweets(start_date, end_date):
     api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 
     query = "climate change -filter:retweets"
-    cursor = tweepy.Cursor(api.search, q= query, lang="en", since=start_date,  until=end_date , tweet_mode='extended').items(50000)
+    cursor = tweepy.Cursor(api.search, q= query, lang="en", since=start,  until=end , tweet_mode='extended').items(10000)
     # Filters out None objects
     cursor = list(filter(None,cursor))
     return cursor
     
 # Exports tweets to csv in datasets folder    
 def store_tweets_to_csv():
-    logging.info("Process started")
+    #logging.info("Process started")
     # Gets tweets based on query
-    start_week = datetime.date.today() - datetime.timedelta(days=7)
-    end_week = datetime.date.today()
-    cursor = get_tweets(start_week, end_week)
+    start = datetime.datetime.now - datetime.date.timedelta(hours=12)
+    print("Getting todays tweets starting at {0} until now".format(start.time()))
+    end = datetime.date.today() 
+    cursor = get_tweets(start, end)
 
     # Preprocesses the tweet texts
     tweets = [format_tweet(tweet) for tweet in cursor]
@@ -87,12 +87,12 @@ def store_tweets_to_csv():
     month = start_week.month
     day = start_week.day
     if df.shape[0] == 0:
-        print("There has been an error. Dataframe tweets_week{}-{} is empty".format(day, month))
+        print("There has been an error. Dataframe tweets{}-{} is empty".format(day, month))
     else:
-        print("The dataframe tweets_week{}-{} has been stored in the datasets folder".format(day, month))
-        df.to_csv(r'C:\stage\project\datasets\tweets_week{}-{}.csv'.format(day, month), index=False)
+        print("The dataframe tweets{}-{} has been stored in the datasets folder. It contains {} tweets".format(day, month, len(df.index)))
+        df.to_csv(r'C:\stage\project\datasets\tweets{}-{}.csv'.format(day, month), index=False)
 
-    logging.info("process ended")
+    #logging.info("process ended")
 
 if __name__ == "__main__":
     store_tweets_to_csv()
