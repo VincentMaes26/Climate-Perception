@@ -1,5 +1,6 @@
 import datetime
+import progressbar as pb
 
 if __name__ == "__main__":
-    now = datetime.datetime.now()
-    print(str(now))
+    today = datetime.date.today()
+    print(today.__str__)
