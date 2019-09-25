@@ -46,7 +46,7 @@ def format_tweet(tweet):
 # Gets tweets from api based on query word
 def get_tweets(today):
     # Gets authentication details from json file
-    with open("twitter_credentials.json", "r") as file:
+    with open("../credentials/twitter_credentials.json", "r") as file:
         creds = json.load(file)
     # Authenticates and connects to API
     auth = tweepy.OAuthHandler(creds['CONSUMER_KEY'], creds['CONSUMER_SECRET'])
