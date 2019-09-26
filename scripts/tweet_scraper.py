@@ -4,6 +4,13 @@ import re
 import pandas as pd
 import logging
 import datetime
+import pymongo
+import dns
+import pyprind
+from logger import init_logger
+
+
+logger = init_logger()
 
 # Returns true if retweet or reply
 def isRetweet(tweet):
@@ -46,27 +53,29 @@ def format_tweet(tweet):
 # Gets tweets from api based on query word
 def get_tweets(today):
     # Gets authentication details from json file
-    with open("../credentials/twitter_credentials.json", "r") as file:
+    with open("../credentials/twitter.json", "r") as file:
         creds = json.load(file)
     # Authenticates and connects to API
     auth = tweepy.OAuthHandler(creds['CONSUMER_KEY'], creds['CONSUMER_SECRET'])
     auth.set_access_token(creds['ACCESS_TOKEN'], creds['ACCESS_SECRET'])
     api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 
-    query = "climate change -filter:retweets"
+    query = "climate+change OR global+warming -filter:retweets"
     cursor = tweepy.Cursor(api.search, q= query, lang="en", since=today, tweet_mode='extended').items(5000)
     # Filters out None objects
     cursor = list(filter(None,cursor))
+    #bar = pyprind.ProgBar(cursor, monitor=True)
+    #for i in len(cursor):
+    #    bar.update()
     return cursor
-    
-# Exports tweets to csv in datasets folder    
-def store_tweets_to_csv():
+
+def create_dataframe():
     #logging.info("Process started")
     # Gets tweets based on query
+    logger.info("Getting todays tweets")
     today = datetime.date.today()
-    print("Getting todays tweets")
     cursor = get_tweets(today)
-
+    
     # Preprocesses the tweet texts
     tweets = [format_tweet(tweet) for tweet in cursor]
     tweets = list(filter(None, tweets))
@@ -79,20 +88,46 @@ def store_tweets_to_csv():
 
     list_for_dataframe = list(zip(tweets,usernames, creation_dates))
     df = pd.DataFrame(list_for_dataframe, columns=["tweet","username", "creation date"])
-    
+    return df
 
+# Exports tweets to csv in datasets folder    
+def store_tweets_to_csv():
+    df = create_dataframe()
+    today = datetime.date.today()
     if df.shape[0] == 0:
-        print("There has been an error. Dataframe tweets{} is empty".format(today))
+        logger.error("There has been an error. Dataframe tweets{} is empty".format(today))
     else:
-        print("The dataframe tweets{} has been stored in the datasets folder. It contains {} tweets".format(today, len(df.index)))
         df.to_csv(r'C:\stage\project\datasets\tweets{}.csv'.format(today), index=False)
+        logger.info("The dataframe tweets{} has been stored in the datasets folder. It contains {} tweets".format(today, len(df.index)))
 
     #logging.info("process ended")
 
+# Export tweets to mongodb (cluster = Climate-Perception, database = textdata, collection = tweets)
+def store_tweets_to_mongodb():
 
+    df = create_dataframe()
+    if df.shape[0] == 0:
+        print("There has been an error. Dataframe is empty")
+    else:
+        print("Dataframe has been created and contains {} tweets".format(len(df.index)))
+
+    # Setting up connection with mongodb & storing tweets
+    with open("../credentials/mongodb.json", "r") as file:
+        creds = json.load(file)
+    try:
+        client = pymongo.MongoClient("mongodb+srv://{0}:{1}@climate-perception-qpc1e.mongodb.net/test?retryWrites=true&w=majority".format(str(creds["USERNAME"]), str(creds["PASSWORD"])))
+        db = client.textdata
+        collection = db.tweets
+
+        data = df.to_dict(orient='records') 
+        collection.insert_many(data)
+        print("Tweets succesfully stored in mongodb.")
+    except Exception as ex:
+        print("Could not connect to mongodb. Error: {}".format(ex))
+  
 if __name__ == "__main__":
     store_tweets_to_csv()
-
+    #store_tweets_to_mongodb()
 
 
 
