@@ -70,13 +70,13 @@ def get_tweets(today):
     return cursor
 
 def create_dataframe():
-    #logging.info("Process started")
     # Gets tweets based on query
-    logger.info("Getting todays tweets")
+    logger.info("Getting todays tweets with keywords = 'climate change' or 'global warming'. Limit = 5000 tweets")
     today = datetime.date.today()
     cursor = get_tweets(today)
     
     # Preprocesses the tweet texts
+    logger.info("Formatting tweets")
     tweets = [format_tweet(tweet) for tweet in cursor]
     tweets = list(filter(None, tweets))
 
