@@ -11,7 +11,7 @@ def init_logger():
 
     # Sends output to log file
     logfile_name = datetime.datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")
-    file_handler = logging.FileHandler(r"C:\stage\project\scripts\logfiles\{}.log".format(logfile_name))
+    file_handler = logging.FileHandler(r"..\scripts\logfiles\{}.log".format(logfile_name))
     file_handler.setFormatter(formatter)
 
     # Sends output to console

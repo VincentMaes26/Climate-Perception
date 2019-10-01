@@ -6,80 +6,49 @@ import logging
 import datetime
 import pymongo
 import dns
-import pyprind
 from logger import init_logger
 
 
 logger = init_logger()
 
 # Returns true if retweet or reply
-def isRetweet(tweet):
+def is_retweet(tweet):
     if (hasattr(tweet, 'retweeted_status')):
         return True
 
-# Preprocessing of tweet texts
-def format_tweet(tweet):
-    processed_tweet=""
-    if not isRetweet(tweet):
-        for word in tweet.full_text.split():
-            
-            # Removing URL from tweet
-            processed_word = re.sub(r'([^0-9A-Za-z \t])|(\w+:\/\/\S+)', ' ', word)
-            
-            # Remove all the special characters
-            processed_word = re.sub(r'\W', '', processed_word)
-
-            # remove all single characters
-            processed_word = re.sub(r'\s+[a-zA-Z]\s+', ' ', processed_word)
-
-            # Remove single characters from the start
-            processed_word = re.sub(r'\^[a-zA-Z]\s+', ' ', processed_word) 
-
-            # Substituting multiple spaces with single space
-            processed_word = re.sub(r'\s+', '', processed_word, flags=re.I)
-
-            # Removing prefixed 'b'
-            processed_word = re.sub(r'^b\s+', ' ', processed_word)
-
-            # Converting to Lowercase
-            processed_word = processed_word.lower()
-            processed_tweet= processed_tweet+" "+processed_word
-
-        return processed_tweet
-            
-    else:
-        return
-
 # Gets tweets from api based on query word
-def get_tweets(today):
+def get_tweets():
     # Gets authentication details from json file
-    with open("../credentials/twitter.json", "r") as file:
+    with open("./credentials/twitter.json", "r") as file:
         creds = json.load(file)
     # Authenticates and connects to API
     auth = tweepy.OAuthHandler(creds['CONSUMER_KEY'], creds['CONSUMER_SECRET'])
     auth.set_access_token(creds['ACCESS_TOKEN'], creds['ACCESS_SECRET'])
     api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 
+    today = datetime.date.today()
+
     query = "climate+change OR global+warming -filter:retweets"
-    cursor = tweepy.Cursor(api.search, q= query, lang="en", since=today, tweet_mode='extended').items(5000)
-    # Filters out None objects
-    cursor = list(filter(None,cursor))
-    #bar = pyprind.ProgBar(cursor, monitor=True)
-    #for i in len(cursor):
-    #    bar.update()
+
+    try:
+        cursor = tweepy.Cursor(api.search, q= query, lang="en", since=today, tweet_mode='extended').items(5000)
+    except Exception as ex:
+        logger.error(str(ex))
+        
     return cursor
 
 def create_dataframe():
     # Gets tweets based on query
     logger.info("Getting todays tweets with keywords = 'climate change' or 'global warming'. Limit = 5000 tweets")
-    today = datetime.date.today()
-    cursor = get_tweets(today)
+    cursor = list(get_tweets())
     
-    # Preprocesses the tweet texts
-    logger.info("Formatting tweets")
-    tweets = [format_tweet(tweet) for tweet in cursor]
-    tweets = list(filter(None, tweets))
+    logger.info("Filtering out remaining retweets and None values")
+    for tweet in cursor:
+        if is_retweet(tweet):
+            cursor.remove(tweet)
 
+    tweets = list(filter(None, cursor))
+    tweets = [tweet.full_text for tweet in tweets]
     # Gets username and creation date of tweet
     usernames = [tweet.user.name for tweet in cursor]
     usernames = list(filter(None, usernames))
@@ -97,7 +66,7 @@ def store_tweets_to_csv():
     if df.shape[0] == 0:
         logger.error("There has been an error. Dataframe tweets{} is empty".format(today))
     else:
-        df.to_csv(r'C:\stage\project\datasets\tweets{}.csv'.format(today), index=False)
+        df.to_csv(r'..\datasets\raw_data\tweets{}.csv'.format(today), index=False)
         logger.info("The dataframe tweets{} has been stored in the datasets folder. It contains {} tweets".format(today, len(df.index)))
 
     #logging.info("process ended")
