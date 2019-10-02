@@ -7,6 +7,10 @@ import datetime
 import pymongo
 import dns
 from logger import init_logger
+import boto3
+
+# Use Amazon S3
+#s3 = boto3.resource('s3')
 
 
 logger = init_logger()

@@ -1,0 +1,14 @@
+1. Scraping data from sources and storing the raw contents
+
+2. Filtering out unneeded content (links, stopwords, numbers,...)
+
+3. -Scale = Change range of feature values, shape doesn't change. Proportions stay the same.
+            Range is often set at 0 to 1
+   
+   -Standardize = Changing values of features to output something close to normal distribution
+   
+   -Normalize = can be used to mean either of the above
+
+   => this step is not needed for random forest
+   => Use MinMaxScaler as the default if you are transforming a feature. It’s non-distorting.
+    

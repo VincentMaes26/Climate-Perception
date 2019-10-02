@@ -1,0 +1,28 @@
+REGRESSION ALGORITHMS
+Models the relationship between variables (features) and is iteratively refined using measure of error
+in predictions 
+
+=> Logistic regression
+
+
+
+INSTANCE-BASED ALGORITHMS
+Typically build up a database of example data deemed to be important or required 
+to the model. Then we compare new data to this database using similarity measure
+to find the best match
+
+=> Support Vector Machines
+
+
+BAYESIAN ALGORITHMS
+Algorithms based on the Bayes theorem
+(describes the probability of an event, based on prior knowledge of conditions that might be related to the event.)
+with the "naive" assumption that every feature is independent.
+
+
+DECISION TREE ALGORITHMS
+Construct a sequence of decisions concerning the features that are related to the target label. The sequence forms
+forks until a prediction decision can be made for the given record.
+
+=> Random forest is combination of multiple random decision trees.
+
