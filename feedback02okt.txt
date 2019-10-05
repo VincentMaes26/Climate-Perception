@@ -1,9 +1,0 @@
-lambda aws voor scheduling
- =>cron expression generator
-
-Jupyter
-
-tweepy dependency appart
-zip proberen
-
-target meegeven bij pip install -t 

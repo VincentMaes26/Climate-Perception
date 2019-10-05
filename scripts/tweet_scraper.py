@@ -10,7 +10,7 @@ from logger import init_logger
 import boto3
 
 # Use Amazon S3
-#s3 = boto3.resource('s3')
+#s3 = boto3.client('s3')
 
 
 logger = init_logger()
@@ -59,8 +59,16 @@ def create_dataframe():
     creation_dates = [tweet.created_at for tweet in cursor]
     creation_dates = list(filter(None, creation_dates))
 
-    list_for_dataframe = list(zip(tweets,usernames, creation_dates))
-    df = pd.DataFrame(list_for_dataframe, columns=["tweet","username", "creation date"])
+    keywords = []
+    for tweet in tweets:
+        if "climate change" in tweets.split():
+            keywords.append("Climate change")
+        else if "global warming" in tweets.split():
+            keywords.append("Global warming")
+
+
+    list_for_dataframe = list(zip(keywords, tweets,usernames, creation_dates))
+    df = pd.DataFrame(list_for_dataframe, columns=["keyword","tweet","username", "creation date"])
     return df
 
 # Exports tweets to csv in datasets folder    
