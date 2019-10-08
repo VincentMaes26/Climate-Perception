@@ -3,15 +3,14 @@ import json
 import re
 import pandas as pd
 import logging
-import datetime
+from datetime import datetime
 import pymongo
 import dns
 from logger import init_logger
 import boto3
 
-# Use Amazon S3
-#s3 = boto3.client('s3')
 
+TARGET_BUCKET = 'ops-vw-interns-aws-climate-perception'
 
 logger = init_logger()
 
@@ -61,14 +60,16 @@ def create_dataframe():
 
     keywords = []
     for tweet in tweets:
-        if "climate change" in tweets.split():
+        if "global warming" in tweet.lower() and "climate change" in tweet:
+            keywords.append("Global warming & Climate change")
+        elif "climate change" in tweet.lower():
             keywords.append("Climate change")
-        else if "global warming" in tweets.split():
+        elif "global warming" in tweet.lower():
             keywords.append("Global warming")
-
+    
 
     list_for_dataframe = list(zip(keywords, tweets,usernames, creation_dates))
-    df = pd.DataFrame(list_for_dataframe, columns=["keyword","tweet","username", "creation date"])
+    df = pd.DataFrame(list_for_dataframe, columns=["keyword", "tweet","username", "creation date"])
     return df
 
 # Exports tweets to csv in datasets folder    
@@ -106,9 +107,16 @@ def store_tweets_to_mongodb():
     except Exception as ex:
         print("Could not connect to mongodb. Error: {}".format(ex))
   
-if __name__ == "__main__":
-    store_tweets_to_csv()
-    #store_tweets_to_mongodb()
+#if __name__ == "__main__":
+#    store_tweets_to_csv()
+#    store_tweets_to_mongodb()
 
 
-
+def lambda_handler(event, context):
+    s3_client = boto3.client('s3')
+    s3_client.put.object(
+        Bucket = TARGET_BUCKET,
+        Key = r'..\datasets\raw_data\tweets{}.csv'.format(datetime.date.today()),
+        Body = create_dataframe(),
+        ContentType='text/csv'
+    )
