@@ -1,0 +1,3 @@
+2019-10-08 14:28:39,848:INFO:Getting todays tweets with keywords = 'climate change' or 'global warming'. Limit = 5000 tweets
+2019-10-08 14:45:18,948:INFO:Filtering out remaining retweets and None values
+2019-10-08 14:45:19,162:INFO:The dataframe tweets2019-10-08 has been stored in the datasets folder. It contains 4343 tweets

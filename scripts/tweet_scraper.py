@@ -3,7 +3,7 @@ import json
 import re
 import pandas as pd
 import logging
-from datetime import datetime
+import datetime
 import pymongo
 import dns
 from logger import init_logger
@@ -107,16 +107,16 @@ def store_tweets_to_mongodb():
     except Exception as ex:
         print("Could not connect to mongodb. Error: {}".format(ex))
   
-#if __name__ == "__main__":
-#    store_tweets_to_csv()
-#    store_tweets_to_mongodb()
+if __name__ == "__main__":
+    store_tweets_to_csv()
+    #store_tweets_to_mongodb()
 
 
-def lambda_handler(event, context):
-    s3_client = boto3.client('s3')
-    s3_client.put.object(
-        Bucket = TARGET_BUCKET,
-        Key = r'..\datasets\raw_data\tweets{}.csv'.format(datetime.date.today()),
-        Body = create_dataframe(),
-        ContentType='text/csv'
-    )
+#def lambda_handler(event, context):
+#    s3_client = boto3.client('s3')
+#    s3_client.put.object(
+#        Bucket = TARGET_BUCKET,
+#        Key = r'..\datasets\raw_data\tweets{}.csv'.format(datetime.date.today()),
+#        Body = create_dataframe(),
+#        ContentType='text/csv'
+#    )
