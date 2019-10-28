@@ -1,1 +1,3 @@
 credentials/
+terraform-aws/secret-vars.tf
+terraform-aws/.terraform

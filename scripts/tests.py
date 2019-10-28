@@ -1,8 +1,10 @@
 import datetime
 import json
+import hashlib
 
 if __name__ == "__main__":
     list1 = ["hfkdlsmj jkflqsmjd", "global warming fhdklsqmf ff climate change", "jfklsdqm"]
+
 
     keywords = []
     for item in list1:
@@ -12,4 +14,5 @@ if __name__ == "__main__":
 
     keywords = list(filter(None,keywords))
 
-    print(keywords)
+    hashed = hashlib.md5(str(list1[1]).encode('utf-8')).hexdigest()
+    print(datetime.datetime.now())
