@@ -6,6 +6,19 @@ resource "aws_sagemaker_notebook_instance" "Twitter-sentiment-analysis" {
 
 }
 
+# Lifecycle
+resource "aws_sagemaker_notebook_instance_lifecycle_configuration" "sm-notebook-conf" {
+  name     = "sm-notebook-conf"
+  on_start = "${base64encode(data.template_file.instance-init.rendered)}"
+
+}
+
+data "template_file" "instance-init" {
+  template = "${file("${path.module}/template/sm-instance-init.sh")}"
+}
+
+
+
 # IAM
 resource "aws_iam_role" "sagemaker-role" {
   name = "AmazonSageMaker-ExecutionRole-20191022T143324"
