@@ -1,4 +1,4 @@
-# Lambda function 
+# Lambda function
 resource "aws_lambda_function" "tweet-collector" {
   function_name = "tweet-collector"
   handler       = "lambda_function.lambda_handler"
@@ -47,7 +47,7 @@ resource "aws_iam_role" "tweet-collector-role" {
         }
     ]
   }
-  EOF
+EOF
 
   tags = {
     tag-key = ""
@@ -74,7 +74,7 @@ resource "aws_iam_policy" "lambda-s3-full-access" {
         }
     ]
   }
-  EOF
+EOF
 
 }
 
@@ -92,7 +92,7 @@ resource "aws_lambda_layer_version" "AWSLambda-Python37-SciPy1x" {
 }
 
 
-# Cloudwatch 
+# Cloudwatch
 resource "aws_cloudwatch_event_rule" "tweet-collector-trigger" {
   name                = "tweet-collector-trigger"
   description         = "Runs tweet-collector every hour"
@@ -112,4 +112,3 @@ resource "aws_lambda_permission" "allow-cloudwatch-trigger" {
   principal     = "events.amazonaws.com"
   source_arn    = "${aws_cloudwatch_event_rule.tweet-collector-trigger.arn}"
 }
-

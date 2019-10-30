@@ -49,7 +49,7 @@ resource "aws_iam_role" "sagemaker-role" {
             }
         ]
     }
-    EOF
+EOF
 
 }
 
@@ -354,10 +354,7 @@ resource "aws_iam_policy" "sagemaker-full-access" {
                 }
             }
         ]
-    }   
-    EOF
+    }
+EOF
 
 }
-
-
-

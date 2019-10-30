@@ -31,7 +31,7 @@ resource "aws_iam_role" "notebook-activity-monitor-role" {
         }
     ]
   }
-  EOF
+EOF
 
 }
 
@@ -334,7 +334,7 @@ resource "aws_iam_policy" "lambda-sagemaker-full-access" {
           }
       ]
   }
-  EOF
+EOF
 
 }
 
