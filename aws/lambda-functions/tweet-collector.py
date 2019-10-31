@@ -8,15 +8,66 @@ import boto3
 import os
 import sys
 import hashlib
+import base64
+from botocore.exceptions import ClientError
 
 TARGET_BUCKET = 'ops-vw-interns-climate-perception-tweets'
+DATETIME_NOW = datetime.datetime.now()
+
 
 TWEEPY_CONSUMER_KEY = os.getenv('tweepy_CONSUMER_KEY')
 TWEEPY_CONSUMER_SECRET = os.getenv('tweepy_CONSUMER_SECRET')
 TWEEPY_ACCESS_TOKEN = os.getenv('tweepy_ACCESS_TOKEN')
 TWEEPY_ACCESS_SECRET = os.getenv('tweepy_ACCESS_SECRET')
 
-DATETIME_NOW = datetime.datetime.now()
+
+def get_secret():
+
+    secret_name = "tweet-collector/tweepy/credentials"
+    region_name = "eu-west-1"
+
+    # Create a Secrets Manager client
+    session = boto3.session.Session()
+    client = session.client(
+        service_name='secretsmanager',
+        region_name=region_name
+    )
+
+    # In this sample we only handle the specific exceptions for the 'GetSecretValue' API.
+    # See https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
+    # We rethrow the exception by default.
+    try:
+        get_secret_value_response = client.get_secret_value(
+            SecretId=secret_name
+        )
+    except ClientError as e:
+        if e.response['Error']['Code'] == 'DecryptionFailureException':
+            # Secrets Manager can't decrypt the protected secret text using the provided KMS key.
+            # Deal with the exception here, and/or rethrow at your discretion.
+            raise e
+        elif e.response['Error']['Code'] == 'InternalServiceErrorException':
+            # An error occurred on the server side.
+            # Deal with the exception here, and/or rethrow at your discretion.
+            raise e
+        elif e.response['Error']['Code'] == 'InvalidParameterException':
+            # You provided an invalid value for a parameter.
+            # Deal with the exception here, and/or rethrow at your discretion.
+            raise e
+        elif e.response['Error']['Code'] == 'InvalidRequestException':
+            # You provided a parameter value that is not valid for the current state of the resource.
+            # Deal with the exception here, and/or rethrow at your discretion.
+            raise e
+        elif e.response['Error']['Code'] == 'ResourceNotFoundException':
+            # We can't find the resource that you asked for.
+            # Deal with the exception here, and/or rethrow at your discretion.
+            raise e
+    else:
+        # Decrypts secret using the associated KMS CMK.
+        # Depending on whether the secret is a string or binary, one of these fields will be populated.
+        if 'SecretString' in get_secret_value_response:
+            secret = get_secret_value_response['SecretString']
+        else:
+            decoded_binary_secret = base64.b64decode(get_secret_value_response['SecretBinary'])
 
 def init_logger():
     logger = logging.getLogger(__name__)
@@ -40,9 +91,15 @@ def is_retweet(tweet):
 
 # Gets tweets from api based on query words
 def get_tweets():
+
     # Authenticates and connects to API
-    auth = tweepy.OAuthHandler(TWEEPY_CONSUMER_KEY, TWEEPY_CONSUMER_SECRET)
-    auth.set_access_token(TWEEPY_ACCESS_TOKEN, TWEEPY_ACCESS_SECRET)
+    credentials = get_secret()
+    auth = tweepy.OAuthHandler(credentials['tweepy-consumer-key'],
+                                credentials['tweepy-consumer-secret'])
+
+    auth.set_access_token(credentials['tweepy-access-token'],
+                                        credentials['tweepy-access-secret'])
+
     api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 
     today = datetime.date.today()
