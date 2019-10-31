@@ -4,7 +4,6 @@ resource "aws_sagemaker_notebook_instance" "Twitter-sentiment-analysis" {
   lifecycle_config_name = "sm-notebook-conf"
   name                  = "Twitter-sentiment-analysis"
   role_arn              = "arn:aws:iam::916245739953:role/service-role/AmazonSageMaker-ExecutionRole-20191022T143324"
-  security_groups       = []
   tags                  = {}
 }
 
