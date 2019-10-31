@@ -1,3 +1,0 @@
-2019-10-01 16:31:49,415:INFO:Getting todays tweets with keywords = 'climate change' or 'global warming'. Limit = 5000 tweets
-2019-10-01 16:31:49,688:ERROR:Could not retrieve tweets
-2019-10-01 16:31:49,688:INFO:Filtering out remaining retweets and None values

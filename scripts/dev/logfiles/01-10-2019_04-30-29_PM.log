@@ -1,4 +1,0 @@
-2019-10-01 16:30:29,260:INFO:Getting todays tweets with keywords = 'climate change' or 'global warming'. Limit = 5000 tweets
-2019-10-01 16:30:29,519:INFO:Actual amount of tweets: 0
-2019-10-01 16:30:29,520:INFO:Filtering out remaining retweets and None values
-2019-10-01 16:30:29,527:ERROR:There has been an error. Dataframe tweets2019-10-01 is empty
