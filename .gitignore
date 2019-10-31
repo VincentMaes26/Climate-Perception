@@ -1,3 +1,6 @@
-credentials/
 aws/terraform/secret-vars.tf
 aws/terraform/.terraform
+scripts/dev/credentials/
+scripts/dev/logfiles/
+scripts/datasets
+
