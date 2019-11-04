@@ -131,18 +131,8 @@ def create_dataframe():
     creation_dates = [tweet.created_at for tweet in cursor]
     creation_dates = list(filter(None, creation_dates))
 
-    keywords = []
-    for tweet in tweets:
-        if "global warming" in tweet.lower() and "climate change" in tweet:
-            keywords.append("Global warming & Climate change")
-        elif "climate change" in tweet.lower():
-            keywords.append("Climate change")
-        elif "global warming" in tweet.lower():
-            keywords.append("Global warming")
-
-
-    list_for_dataframe = list(zip(keywords, tweets,usernames, creation_dates))
-    df = pd.DataFrame(list_for_dataframe, columns=["keyword", "tweet","username", "creation date"])
+    list_for_dataframe = list(zip(tweets, usernames, creation_dates))
+    df = pd.DataFrame(list_for_dataframe, columns=["tweet","username", "creation date"])
     return df
 
 # Exports tweets to csv in datasets folder
