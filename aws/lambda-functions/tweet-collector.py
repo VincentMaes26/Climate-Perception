@@ -12,18 +12,12 @@ import base64
 from botocore.exceptions import ClientError
 
 TARGET_BUCKET = 'ops-vw-interns-climate-perception-tweets'
+
 DATETIME_NOW = datetime.datetime.now()
-
-
-TWEEPY_CONSUMER_KEY = os.getenv('tweepy_CONSUMER_KEY')
-TWEEPY_CONSUMER_SECRET = os.getenv('tweepy_CONSUMER_SECRET')
-TWEEPY_ACCESS_TOKEN = os.getenv('tweepy_ACCESS_TOKEN')
-TWEEPY_ACCESS_SECRET = os.getenv('tweepy_ACCESS_SECRET')
-
 
 def get_secret():
 
-    secret_name = "tweet-collector/tweepy/credentials"
+    secret_name = "tweet-collector/creds/tweepy"
     region_name = "eu-west-1"
 
     # Create a Secrets Manager client
@@ -40,6 +34,7 @@ def get_secret():
         get_secret_value_response = client.get_secret_value(
             SecretId=secret_name
         )
+
     except ClientError as e:
         if e.response['Error']['Code'] == 'DecryptionFailureException':
             # Secrets Manager can't decrypt the protected secret text using the provided KMS key.
@@ -65,9 +60,15 @@ def get_secret():
         # Decrypts secret using the associated KMS CMK.
         # Depending on whether the secret is a string or binary, one of these fields will be populated.
         if 'SecretString' in get_secret_value_response:
-            secret = get_secret_value_response['SecretString']
+            return get_secret_value_response['SecretString']
         else:
-            decoded_binary_secret = base64.b64decode(get_secret_value_response['SecretBinary'])
+            return base64.b64decode(get_secret_value_response['SecretBinary'])
+
+def check_secret():
+    secret = get_secret()
+    secret_json = json.loads(secret)
+    print(secret_json['CONSUMER_KEY'])
+
 
 def init_logger():
     logger = logging.getLogger(__name__)
@@ -91,14 +92,14 @@ def is_retweet(tweet):
 
 # Gets tweets from api based on query words
 def get_tweets():
-
     # Authenticates and connects to API
     credentials = get_secret()
-    auth = tweepy.OAuthHandler(credentials['tweepy-consumer-key'],
-                                credentials['tweepy-consumer-secret'])
+    secret_json = json.loads(credentials)
+    auth = tweepy.OAuthHandler(secret_json['CONSUMER_KEY'],
+                                secret_json['CONSUMER_SECRET'])
 
-    auth.set_access_token(credentials['tweepy-access-token'],
-                                        credentials['tweepy-access-secret'])
+    auth.set_access_token(secret_json['ACCESS_TOKEN'],
+                                secret_json['ACCESS_SECRET'])
 
     api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 
@@ -131,7 +132,7 @@ def create_dataframe():
     creation_dates = [tweet.created_at for tweet in cursor]
     creation_dates = list(filter(None, creation_dates))
 
-    list_for_dataframe = list(zip(tweets, usernames, creation_dates))
+    list_for_dataframe = list(zip(tweets,usernames, creation_dates))
     df = pd.DataFrame(list_for_dataframe, columns=["tweet","username", "creation date"])
     return df
 
@@ -153,7 +154,7 @@ def lambda_handler(event, context):
     s3_client = boto3.client('s3')
     s3_client.put_object(
         Bucket = TARGET_BUCKET,
-        Key = 'tweet-objects/tweets{}.json'.format(DATETIME_NOW),
+        Key = 'objects/tweets{}.json'.format(DATETIME_NOW),
         Body =  body,
         ContentType = 'application/json'
     )
