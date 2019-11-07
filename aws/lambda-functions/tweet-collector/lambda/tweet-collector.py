@@ -148,7 +148,7 @@ def convert_tweets_to_json():
         return df_json
         print("The dataframe tweets{}.json has been created. It contains {} tweets".format(DATETIME_NOW, len(df.index)))
 
-
+# Main function
 def lambda_handler(event, context):
     body = convert_tweets_to_json()
     s3_client = boto3.client('s3')
