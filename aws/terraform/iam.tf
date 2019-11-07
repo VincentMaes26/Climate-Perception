@@ -20,14 +20,14 @@ resource "aws_iam_role" "notebook-activity-monitor-role" {
   tags                  = {}
 }
 
-#resource "aws_iam_role_policy_attachment" "lambda-s3-full-access" {
-#
-#}
-#
-#resource "aws_iam_policy" "lambda-sagemaker-full-access" {
-#
-#}
+resource "aws_iam_role_policy_attachment" "lambda-sagemaker-full-access-attachment" {
+  role       = "${aws_iam_role.notebook-activity-monitor-role.name}"
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSageMakerFullAccess"
+}
 
+# resource "aws_iam_policy" "sagemaker-full-access" {
+#   name = "AmazonSageMakerFullAccess"
+# }
 
 # Tweet collector lambda
 resource "aws_iam_role" "tweet-collector-role" {
@@ -51,15 +51,15 @@ resource "aws_iam_role" "tweet-collector-role" {
   tags                  = {}
 }
 
+resource "aws_iam_role_policy_attachment" "lambda-s3-full-access-attach" {
+  role = "${aws_iam_role.tweet-collector-role.name}"
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+}
 
-#resource "aws_iam_role_policy_attachment" "lambda-s3-full-access-attach" {
-#
-#}
-#
-#resource "aws_iam_policy" "lambda-s3-full-access" {
-#
-#}
-
+resource "aws_iam_role_policy_attachment" "lambda-secretmanager-read-write-attach" {
+    role = "${aws_iam_role.tweet-collector-role.name}"
+    policy_arn = "arn:aws:iam::aws:policy/SecretsManagerReadWrite"
+}
 
 
 # sagemaker notebook
@@ -81,13 +81,12 @@ resource "aws_iam_role" "sagemaker-role" {
   force_detach_policies = false
   max_session_duration  = 3600
   name                  = "AmazonSageMaker-ExecutionRole-20191022T143324"
+  description           = "SageMaker execution role created from the SageMaker AWS Management Console."
   path                  = "/service-role/"
   tags                  = {}
 }
 
-#resource "aws_iam_role_policy_attachment" "sagemaker-full-access-attach" {
-#}
-#
-#resource "aws_iam_policy" "sagemaker-full-access" {
-#
-#}
+resource "aws_iam_role_policy_attachment" "sagemaker-full-access-attach" {
+  role       = "${aws_iam_role.sagemaker-role.name}"
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSageMakerFullAccess"
+}

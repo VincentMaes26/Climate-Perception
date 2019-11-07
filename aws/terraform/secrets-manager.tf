@@ -1,3 +1,4 @@
-data "aws_secretsmanager_secret" "tweepy-credentials" {
-  name = "tweet-collector/tweepy/credentials" 
+resource "aws_secretsmanager_secret" "tweepy-credentials" {
+  name             = "tweet-collector/creds/tweepy"
+  tags             = {}
 }

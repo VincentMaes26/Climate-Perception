@@ -8,10 +8,8 @@ resource "aws_sagemaker_notebook_instance" "Twitter-sentiment-analysis" {
 }
 
 # Lifecycle
-#resource "aws_sagemaker_notebook_instance_lifecycle_configuration" "sm-notebook-conf" {
-#
-#}
-#
-#data "template_file" "instance-init" {
-#
-#}
+resource "aws_sagemaker_notebook_instance_lifecycle_configuration" "sm-notebook-conf" {
+  name      = "sm-notebook-conf"
+  on_create = "IyEvYmluL2Jhc2gKCnNldCAtZQo="
+  on_start  = "IyEvYmluL2Jhc2gKCnN1ZG8gLXUgZWMyLXVzZXIgLWkgPDwnRU9GJwoKc291cmNlIGFjdGl2YXRlIHB5dGhvbjMKCnBpcCBpbnN0YWxsIHllbGxvd2JyaWNrIGN1ZmZsaW5rcwoKCnNvdXJjZSBkZWFjdGl2YXRlCgpFT0Y="
+}
