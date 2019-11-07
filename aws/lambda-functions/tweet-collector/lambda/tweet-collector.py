@@ -136,7 +136,7 @@ def create_dataframe():
     df = pd.DataFrame(list_for_dataframe, columns=["tweet","username", "creation date"])
     return df
 
-# Exports tweets to csv in datasets folder
+# Convert tweets to json
 def convert_tweets_to_json():
     df = create_dataframe()
     if df.shape[0] == 0:
