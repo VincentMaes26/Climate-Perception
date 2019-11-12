@@ -28,7 +28,7 @@ resource "aws_lambda_function" "tweet-collector" {
   memory_size                    = 128
   reserved_concurrent_executions = -1
   role                           = "arn:aws:iam::916245739953:role/service-role/tweet-collector-role-ucv89lpt"
-  source_code_hash               = "${filebase64sha256("../lambda-functions/notebook-monitor/lambda/notebook-monitor.zip")}"
+  source_code_hash               = "${filebase64sha256("../lambda-functions/notebook-monitor/lambda/notebook-activity-monitor.zip")}"
   runtime                        = "python3.7"
   tags                           = {}
   timeout                        = 900
