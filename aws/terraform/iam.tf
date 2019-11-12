@@ -25,9 +25,6 @@ resource "aws_iam_role_policy_attachment" "lambda-sagemaker-full-access-attachme
   policy_arn = "arn:aws:iam::aws:policy/AmazonSageMakerFullAccess"
 }
 
-# resource "aws_iam_policy" "sagemaker-full-access" {
-#   name = "AmazonSageMakerFullAccess"
-# }
 
 # Tweet collector lambda
 resource "aws_iam_role" "tweet-collector-role" {
