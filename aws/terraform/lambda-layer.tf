@@ -22,5 +22,5 @@ resource "aws_lambda_layer_version" "nltk-layer" {
   ]
   layer_name       = "nltk-layer"
   filename         = "../aws-nltk-layer/nltk-layer.zip"
-  source_code_hash = "${filebase64sha256("../aws-nltk-layer/nltk-layer.zip")}"
+  source_code_hash = "${filebase64sha256("../lambda-layers/aws-nltk-layer/nltk-layer.zip")}"
 }
