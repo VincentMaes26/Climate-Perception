@@ -1,0 +1,47 @@
+# Cost te hoog voor de waarde
+ comprehend = boto3.client('comprehend', region_name='eu-west-1')
+ for i, tweet in enumerate(tweets_text[50:60]):
+     print('{0}:{1} \n{2}\n\n'
+           .format(i, tweet, comprehend.detect_sentiment(Text=tweet, 
+                                                         LanguageCode='en')))
+
+RESULT:
+
+0: climate change evidence  how do we know   gt  vital signs of the planet  global climate change and global warming  how do we know it s happening  here s the evidence    
+{'Sentiment': 'NEUTRAL', 'SentimentScore': {'Positive': 0.0027615572325885296, 'Negative': 0.0014047982404008508, 'Neutral': 0.995827853679657, 'Mixed': 5.859718385181623e-06}, 'ResponseMetadata': {'RequestId': 'eb7b4b33-8eb3-4970-857a-9cb32e8540c2', 'HTTPStatusCode': 200, 'HTTPHeaders': {'x-amzn-requestid': 'eb7b4b33-8eb3-4970-857a-9cb32e8540c2', 'content-type': 'application/x-amz-json-1.1', 'content-length': '165', 'date': 'Thu, 14 Nov 2019 13:59:04 GMT'}, 'RetryAttempts': 0}}
+
+
+1: the election  debate is over  stay on the track  lib s mistakes in four years must not be hidden   apologized  snc lavalin  climate change vs pipeline  international relations  economy down  huge deficit  list goes on  never repeated  libs must go  say no to libs   vote  no    
+{'Sentiment': 'NEGATIVE', 'SentimentScore': {'Positive': 0.0032136626541614532, 'Negative': 0.5412147045135498, 'Neutral': 0.45518627762794495, 'Mixed': 0.0003854367241729051}, 'ResponseMetadata': {'RequestId': 'bdb82a40-b7e8-4421-a5c9-c620d569d61e', 'HTTPStatusCode': 200, 'HTTPHeaders': {'x-amzn-requestid': 'bdb82a40-b7e8-4421-a5c9-c620d569d61e', 'content-type': 'application/x-amz-json-1.1', 'content-length': '165', 'date': 'Thu, 14 Nov 2019 13:59:04 GMT'}, 'RetryAttempts': 0}}
+
+
+2: revealed  google made large contributions to climate change deniers   
+{'Sentiment': 'NEUTRAL', 'SentimentScore': {'Positive': 0.28922292590141296, 'Negative': 0.011297142133116722, 'Neutral': 0.6994518041610718, 'Mixed': 2.8114061933592893e-05}, 'ResponseMetadata': {'RequestId': 'dd70ee13-0f77-4bf2-abc9-7451b52f7581', 'HTTPStatusCode': 200, 'HTTPHeaders': {'x-amzn-requestid': 'dd70ee13-0f77-4bf2-abc9-7451b52f7581', 'content-type': 'application/x-amz-json-1.1', 'content-length': '164', 'date': 'Thu, 14 Nov 2019 13:59:04 GMT'}, 'RetryAttempts': 0}}
+
+
+3: climate change  the devastating effect plastics have on our oceans  dwindling numbers of rare species  nah    
+{'Sentiment': 'NEUTRAL', 'SentimentScore': {'Positive': 0.00421992689371109, 'Negative': 0.46656906604766846, 'Neutral': 0.5291861295700073, 'Mixed': 2.4849732653819956e-05}, 'ResponseMetadata': {'RequestId': '9e9c12e6-0d2e-49a5-9b78-7c4f02435cfe', 'HTTPStatusCode': 200, 'HTTPHeaders': {'x-amzn-requestid': '9e9c12e6-0d2e-49a5-9b78-7c4f02435cfe', 'content-type': 'application/x-amz-json-1.1', 'content-length': '163', 'date': 'Thu, 14 Nov 2019 13:59:04 GMT'}, 'RetryAttempts': 0}}
+
+
+4:  pieces of junk   top level  japanese climate scientist rejects global warming panic   opinion   lifesite   
+{'Sentiment': 'NEGATIVE', 'SentimentScore': {'Positive': 0.0005691224941983819, 'Negative': 0.8706852197647095, 'Neutral': 0.12870851159095764, 'Mixed': 3.721149550983682e-05}, 'ResponseMetadata': {'RequestId': '72db4fc3-0511-4915-a8c6-b227f75d113b', 'HTTPStatusCode': 200, 'HTTPHeaders': {'x-amzn-requestid': '72db4fc3-0511-4915-a8c6-b227f75d113b', 'content-type': 'application/x-amz-json-1.1', 'content-length': '164', 'date': 'Thu, 14 Nov 2019 13:59:04 GMT'}, 'RetryAttempts': 0}}
+
+
+5:  the simpsons  predicted greta thunberg s climate change speech in 2007   nme   
+{'Sentiment': 'NEUTRAL', 'SentimentScore': {'Positive': 0.04154983162879944, 'Negative': 0.0028014162089675665, 'Neutral': 0.9556460976600647, 'Mixed': 2.570192009443417e-06}, 'ResponseMetadata': {'RequestId': '40fa7722-51df-4fa0-96d0-6b4e08906e55', 'HTTPStatusCode': 200, 'HTTPHeaders': {'x-amzn-requestid': '40fa7722-51df-4fa0-96d0-6b4e08906e55', 'content-type': 'application/x-amz-json-1.1', 'content-length': '164', 'date': 'Thu, 14 Nov 2019 13:59:04 GMT'}, 'RetryAttempts': 0}}
+
+
+6: aoc gets choked up at climate forum   my dreams of motherhood are now bittersweet     please do not procreate  drainthesw  walkawayfromdemocratsocialists 
+{'Sentiment': 'NEGATIVE', 'SentimentScore': {'Positive': 0.014842651784420013, 'Negative': 0.6187214255332947, 'Neutral': 0.36047178506851196, 'Mixed': 0.005964155308902264}, 'ResponseMetadata': {'RequestId': '5d224f84-0112-4afb-b91f-cd3ac6f57155', 'HTTPStatusCode': 200, 'HTTPHeaders': {'x-amzn-requestid': '5d224f84-0112-4afb-b91f-cd3ac6f57155', 'content-type': 'application/x-amz-json-1.1', 'content-length': '164', 'date': 'Thu, 14 Nov 2019 13:59:04 GMT'}, 'RetryAttempts': 0}}
+
+
+7: climate change protesters hold london  funeral  march   
+{'Sentiment': 'NEUTRAL', 'SentimentScore': {'Positive': 0.005037764552980661, 'Negative': 0.42004722356796265, 'Neutral': 0.5748972296714783, 'Mixed': 1.772854921000544e-05}, 'ResponseMetadata': {'RequestId': '74a2dc25-54ab-45af-8289-e5d9c6879993', 'HTTPStatusCode': 200, 'HTTPHeaders': {'x-amzn-requestid': '74a2dc25-54ab-45af-8289-e5d9c6879993', 'content-type': 'application/x-amz-json-1.1', 'content-length': '163', 'date': 'Thu, 14 Nov 2019 13:59:04 GMT'}, 'RetryAttempts': 0}}
+
+
+8: i m not the first to point it out  but there is zero reason why if i know your position on gun control i also have a good chance of guessing your position on abortion and climate change  these things are not a priori related and should not be bundled    
+{'Sentiment': 'NEGATIVE', 'SentimentScore': {'Positive': 0.007441737689077854, 'Negative': 0.9363710880279541, 'Neutral': 0.05568207427859306, 'Mixed': 0.0005050769541412592}, 'ResponseMetadata': {'RequestId': 'a1c179c1-7bc7-4f7d-9db2-feadd312cfab', 'HTTPStatusCode': 200, 'HTTPHeaders': {'x-amzn-requestid': 'a1c179c1-7bc7-4f7d-9db2-feadd312cfab', 'content-type': 'application/x-amz-json-1.1', 'content-length': '164', 'date': 'Thu, 14 Nov 2019 13:59:04 GMT'}, 'RetryAttempts': 0}}
+
+
+9: jane fonda plans climate change civil disobedience on the capitol steps   
+{'Sentiment': 'NEUTRAL', 'SentimentScore': {'Positive': 0.0029567682649940252, 'Negative': 0.03484674543142319, 'Neutral': 0.9621942639350891, 'Mixed': 2.1391820155258756e-06}, 'ResponseMetadata': {'RequestId': 'e76f1523-86b3-4994-a9a4-28b65a221948', 'HTTPStatusCode': 200, 'HTTPHeaders': {'x-amzn-requestid': 'e76f1523-86b3-4994-a9a4-28b65a221948', 'content-type': 'application/x-amz-json-1.1', 'content-length': '165', 'date': 'Thu, 14 Nov 2019 13:59:04 GMT'}, 'RetryAttempts': 0}}
