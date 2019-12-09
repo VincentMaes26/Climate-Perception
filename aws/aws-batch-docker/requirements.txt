@@ -1,0 +1,6 @@
+pandas
+datetime
+boto3
+s3fs
+nltk
+json

@@ -1,6 +1,7 @@
+aws/ec2-keypair/
 aws/terraform/secret-vars.tf
 aws/terraform/.terraform
+flask/env/
 scripts/dev/credentials/
 scripts/dev/logfiles/
 scripts/datasets
-
