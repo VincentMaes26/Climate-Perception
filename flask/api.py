@@ -2,11 +2,11 @@ import os
 from flask import Flask, jsonify, request, Blueprint
 from flask_restful import Api, Resource
 from flask_swagger_ui import get_swaggerui_blueprint
-#from sklearn.externals
+import sklearn
 import joblib
 from nltk.stem import WordNetLemmatizer
 import nltk
-#nltk.download('wordnet')
+nltk.download('wordnet')
 
 app = Flask(__name__)
 
@@ -21,7 +21,10 @@ SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
     }
 )
 
+app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
+
 # Helper functions
+
 lemmatizer = WordNetLemmatizer()
 
 def vectorizer_lemmatized(text):
@@ -54,12 +57,12 @@ def PredictLR():
     return prediction
 
 @app.route('/multinomial-naive-bayes-predict', methods=['POST'])
-def PredictLR():
+def PredictMNB():
     prediction = get_prediction(mnb)
     return prediction
 
 @app.route('/decision-tree-predict', methods=['POST'])
-def PredictLR():
+def PredictDT():
     prediction = get_prediction(dt)
     return prediction
 
