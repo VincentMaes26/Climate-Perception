@@ -1,0 +1,7 @@
+pandas
+datetime
+python-dateutil<2.8.1
+boto3
+s3fs
+nltk
+awscli
