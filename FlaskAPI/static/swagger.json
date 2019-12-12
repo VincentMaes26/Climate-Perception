@@ -1,0 +1,126 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "classifier-model-api",
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Classifier models",
+      "description": "All available trained classifier models"
+    }
+  ],
+  "paths": {
+    # Logistic regression model endpoint
+    "/logistic-regression-predict": {
+      "post": {
+        "tags": [
+          "Classifier models"
+        ],
+        "summary": "Get the sentiment of the input text",
+        "requestBody": {
+          "description": "Input text",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/postTextBody"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+          },
+          "400": {
+            "description": "Failed. Bad post data."
+          }
+        }
+      }
+    },
+    # multinomial naive bayes model endpoint
+    "/multinomial-naive-bayes-predict":{
+      "post": {
+        "tags": [
+          "Classifier models"
+        ],
+        "summary": "Get the sentiment of the input text",
+        "requestBody": {
+          "description": "Input text",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/postTextBody"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+          },
+          "400": {
+            "description": "Failed. Bad post data."
+          }
+        }
+      }
+    },
+    # multinomial naive bayes model endpoint
+    "/decision-tree-predict":{
+      "post": {
+        "tags": [
+          "Classifier models"
+        ],
+        "summary": "Get the sentiment of the input text",
+        "requestBody": {
+          "description": "Input text",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/postTextBody"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+          },
+          "400": {
+            "description": "Failed. Bad post data."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "postTextBody": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      }
+   }
+ }
+}
