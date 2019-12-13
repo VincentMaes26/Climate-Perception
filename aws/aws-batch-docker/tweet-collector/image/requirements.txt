@@ -1,0 +1,6 @@
+tweepy
+pandas
+python-dateutil<2.8.1
+datetime
+boto3
+awscli

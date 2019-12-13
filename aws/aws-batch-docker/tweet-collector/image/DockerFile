@@ -8,6 +8,7 @@ RUN pip install -r requirements.txt
 
 RUN mkdir app
 
-COPY tweet-etl.py .
+COPY entrypoint.sh .
 
-ENTRYPOINT [ "python", "tweet-etl.py" ]
+ENTRYPOINT [ "/bin/bash", "entrypoint.sh" ]
+
