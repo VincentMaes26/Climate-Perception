@@ -14,6 +14,7 @@ from botocore.exceptions import ClientError
 TARGET_BUCKET = 'ops-vw-interns-climate-perception-tweets'
 
 DATETIME_NOW = datetime.datetime.now()
+TODAY = datetime.datetime.today().strftime('%Y-%m-%d')
 
 def get_secret():
 
@@ -154,7 +155,7 @@ def lambda_handler(event, context):
     s3_client = boto3.client('s3')
     s3_client.put_object(
         Bucket = TARGET_BUCKET,
-        Key = 'objects/tweets{}.json'.format(DATETIME_NOW),
+        Key = 'raw-data/{}/tweets{}.json'.format(TODAY, DATETIME_NOW),
         Body =  body,
         ContentType = 'application/json'
     )
