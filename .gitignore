@@ -2,7 +2,8 @@ aws/ec2-keypair/
 aws/terraform/secret-vars.tf
 aws/terraform/.terraform
 FlaskAPI/Venv/
-FlaskAPI/models/rf.joblib
+FlaskAPI/models/
+FlaskAPI/dockerapi/app/models/
 scripts/dev/credentials/
 scripts/dev/logfiles/
 scripts/datasets
