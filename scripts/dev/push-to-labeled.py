@@ -15,12 +15,12 @@ BUCKETNAME = 'ops-vw-interns-climate-perception-tweets'
 #s3 = boto3.resource('s3')
 s3_client = boto3.client('s3')
 
-raw_tweets = s3_client.list_objects_v2(Bucket=BUCKETNAME, Prefix='raw-data/')['Contents']
+clean_tweets = s3_client.list_objects_v2(Bucket=BUCKETNAME, Prefix='clean-data/')['Contents']
 #raw_tweets = s3.Bucket(BUCKETNAME).objects.filter(Prefix='raw-data/', Delimiter='/').all()
-if raw_tweets == None:
+if clean_tweets == None:
     print('Something has gone wrong trying to read s3 bucket')
 else:
-    print("raw-data contains "+ str(len(raw_tweets))+ " objects.")
+    print("clean-data contains "+ str(len(raw_tweets))+ " objects.")
 
 
 def get_sentiment(polarity):
@@ -35,7 +35,7 @@ def get_sentiment(polarity):
 
 # Posting transformed dataset to s3
 try:
-    for file in raw_tweets:
+    for file in clean_tweets:
         filename = file['Key'].split('/')[2]
         print(filename)
         day = filename.split()[0]
