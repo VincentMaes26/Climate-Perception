@@ -16,11 +16,3 @@ resource "aws_lambda_layer_version" "pandas25-layer" {
   source_code_hash = "HDnMXUK9iz8zA6800z5ziLp2UR+KwXUv7HwK4WsOzp0="
 }
 
-resource "aws_lambda_layer_version" "nltk-layer" {
-  compatible_runtimes = [
-    "python3.7",
-  ]
-  layer_name       = "nltk-layer"
-  filename         = "../aws-nltk-layer/nltk-layer.zip"
-  source_code_hash = "${filebase64sha256("../lambda-layers/aws-nltk-layer/nltk-layer.zip")}"
-}

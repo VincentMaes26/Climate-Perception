@@ -3,7 +3,7 @@ resource "aws_cloudwatch_event_rule" "notebook-activity-monitor-trigger" {
   description         = "Stops running notebook instances"
   is_enabled          = true
   name                = "notebook-activity-monitor-trigger"
-  schedule_expression = "cron(0 21 * * ? *)"
+  schedule_expression = "rate(1 hour)"
   tags                = {}
 }
 

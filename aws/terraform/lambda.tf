@@ -1,7 +1,10 @@
 resource "aws_lambda_function" "notebook-activity-monitor" {
   function_name                  = "notebook-activity-monitor"
   handler                        = "notebook-activity-monitor.lambda_handler"
-  layers                         = []
+  
+  layers                         = [
+          "arn:aws:lambda:eu-west-1:113088814899:layer:Klayers-python37-pytz:3",
+        ]
   memory_size                    = 128
   reserved_concurrent_executions = -1
   role                           = "arn:aws:iam::916245739953:role/service-role/notebook-activity-monitor-role-8v4m1pyc"
@@ -44,29 +47,3 @@ resource "aws_lambda_function" "tweet-collector" {
   }
 }
 
-resource "aws_lambda_function" "tweet-etl" {
-  function_name = "tweet-etl"
-  handler       = "tweet-etl.lambda_handler"
-  layers = [
-    "arn:aws:lambda:eu-west-1:916245739953:layer:tweepy_layer:2",
-    "arn:aws:lambda:eu-west-1:916245739953:layer:pandas25-layer:1",
-    "${aws_lambda_layer_version.nltk-layer.arn}",
-    "arn:aws:lambda:eu-west-1:399891621064:layer:AWSLambda-Python37-SciPy1x:2"
-  ]
-  memory_size                    = 128
-  reserved_concurrent_executions = -1
-  role                           = "arn:aws:iam::916245739953:role/service-role/tweet-collector-role-ucv89lpt"
-  filename                       = "../lambda-functions/tweet-etl/lambda/tweet-etl.zip"
-  source_code_hash               = "${filebase64sha256("../lambda-functions/tweet-etl/lambda/tweet-etl.zip")}"
-  runtime                        = "python3.7"
-  tags                           = {}
-  timeout                        = 900
-
-
-
-  timeouts {}
-
-  tracing_config {
-    mode = "PassThrough"
-  }
-}
