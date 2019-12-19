@@ -19,17 +19,13 @@ dataframe = pd.DataFrame(columns=('creation date', 'tweet',
 
 s3_client = boto3.client('s3')
 
-for obj in s3_client.list_objects_v2(Bucket=BUCKETNAME, Prefix='raw-data/'+TODAY+'/')['Contents']:
-    if TODAY in obj['Key']:
-        temp_df = pd.read_json('s3://{}/{}'.format(BUCKETNAME, obj['Key']))
-        dataframe = dataframe.append(temp_df, sort=False, ignore_index=True)
+raw_tweets = s3_client.list_objects_v2(Bucket=BUCKETNAME, Prefix='raw-data/'+TODAY+'/')['Contents']
+if raw_tweets == None:
+    print('Something has gone wrong trying to read s3 bucket')
+else:
+    print("raw-data contains "+ str(len(raw_tweets))+ " objects.")
 
-
-# Removing bad rows
-pattern = 'climate change|climatechange|global warming|globalwarming'
-dataframe = dataframe[dataframe.tweet.str.contains('(?i)'+pattern)]
-
-# Cleaning
+# Cleaning function
 stop_words = set(stopwords.words('english'))
 def clean_tweet(tweet):
     processed_tweet=''
@@ -67,14 +63,26 @@ def clean_tweet(tweet):
 
     return processed_tweet
 
-dataframe['tweet'] = [clean_tweet(tweet) for tweet in dataframe['tweet']]
-
 # Posting transformed dataset to s3
-temp_json = dataframe.to_dict(orient = 'records')
-temp_json = json.dumps(temp_json, default=str)
-s3_client.put_object(
-    Bucket= BUCKETNAME,
-    Body= temp_json,
-    Key= 'clean-data/'+'dataset',
-    ContentType = 'application/json'
-)
+try:
+    for file in raw_tweets:
+        filename = file['Key'].split('/')[2]
+        print(filename)
+        temp_df = pd.read_json('s3://{}/{}'.format(BUCKETNAME, file['Key']))
+        # cleaning
+        temp_df['tweet'] = [clean_tweet(tweet) for tweet in temp_df['tweet']]
+        # Removing bad rows
+        pattern = 'climate change|climatechange|global warming|globalwarming'
+        temp_df = temp_df[temp_df.tweet.str.contains('(?i)'+pattern)]
+        print(temp_df.info())
+        temp_json = temp_df.to_dict(orient = 'records')
+        temp_json = json.dumps(temp_json, default=str)
+        s3_client.put_object(
+            Bucket= BUCKETNAME,
+            Body= temp_json,
+            Key= 'clean-data/'+TODAY+'/'+filename,
+            ContentType = 'application/json'
+        )
+
+except Exception as e:
+    print("Something has gone wrong trying to write to the s3 bucket.\n"+str(e))
