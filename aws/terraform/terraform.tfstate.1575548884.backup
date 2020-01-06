@@ -1,0 +1,733 @@
+{
+  "version": 4,
+  "terraform_version": "0.12.12",
+  "serial": 63,
+  "lineage": "769d01a3-f5e6-a894-083b-621b77f181d6",
+  "outputs": {},
+  "resources": [
+    {
+      "mode": "data",
+      "type": "aws_secretsmanager_secret",
+      "name": "tweepy-credentials",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:secretsmanager:eu-west-1:916245739953:secret:tweet-collector/creds/tweepy-P2KitV",
+            "description": "",
+            "id": "arn:aws:secretsmanager:eu-west-1:916245739953:secret:tweet-collector/creds/tweepy-P2KitV",
+            "kms_key_id": "",
+            "name": "tweet-collector/creds/tweepy",
+            "policy": "",
+            "rotation_enabled": false,
+            "rotation_lambda_arn": "",
+            "rotation_rules": [],
+            "tags": {}
+          }
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_cloudwatch_event_rule",
+      "name": "notebook-activity-monitor-trigger",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:events:eu-west-1:916245739953:rule/notebook-activity-monitor-trigger",
+            "description": "Stops running notebook instances",
+            "event_pattern": null,
+            "id": "notebook-activity-monitor-trigger",
+            "is_enabled": true,
+            "name": "notebook-activity-monitor-trigger",
+            "name_prefix": null,
+            "role_arn": "",
+            "schedule_expression": "cron(0 21 * * ? *)",
+            "tags": {}
+          },
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjAifQ=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_cloudwatch_event_rule",
+      "name": "tweet-collector-trigger",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:events:eu-west-1:916245739953:rule/tweet-collector-trigger",
+            "description": "Triggers tweet-collector function every hour",
+            "event_pattern": null,
+            "id": "tweet-collector-trigger",
+            "is_enabled": true,
+            "name": "tweet-collector-trigger",
+            "name_prefix": null,
+            "role_arn": "",
+            "schedule_expression": "cron(0\t0/1\t?\t*\t*\t*)",
+            "tags": {}
+          },
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjAifQ=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_iam_role",
+      "name": "notebook-activity-monitor-role",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:iam::916245739953:role/service-role/notebook-activity-monitor-role-8v4m1pyc",
+            "assume_role_policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"lambda.amazonaws.com\"},\"Action\":\"sts:AssumeRole\"}]}",
+            "create_date": "2019-10-24T09:11:32Z",
+            "description": "",
+            "force_detach_policies": false,
+            "id": "notebook-activity-monitor-role-8v4m1pyc",
+            "max_session_duration": 3600,
+            "name": "notebook-activity-monitor-role-8v4m1pyc",
+            "name_prefix": null,
+            "path": "/service-role/",
+            "permissions_boundary": null,
+            "tags": {},
+            "unique_id": "AROA5KVEAPGYXLX2WE3LF"
+          },
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjAifQ=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_iam_role",
+      "name": "sagemaker-role",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:iam::916245739953:role/service-role/AmazonSageMaker-ExecutionRole-20191022T143324",
+            "assume_role_policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"sagemaker.amazonaws.com\"},\"Action\":\"sts:AssumeRole\"}]}",
+            "create_date": "2019-10-22T12:33:03Z",
+            "description": "SageMaker execution role created from the SageMaker AWS Management Console.",
+            "force_detach_policies": false,
+            "id": "AmazonSageMaker-ExecutionRole-20191022T143324",
+            "max_session_duration": 3600,
+            "name": "AmazonSageMaker-ExecutionRole-20191022T143324",
+            "name_prefix": null,
+            "path": "/service-role/",
+            "permissions_boundary": null,
+            "tags": {},
+            "unique_id": "AROA5KVEAPGYSIPZFAP2I"
+          },
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjAifQ=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_iam_role",
+      "name": "tweet-collector-role",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:iam::916245739953:role/service-role/tweet-collector-role-ucv89lpt",
+            "assume_role_policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"lambda.amazonaws.com\"},\"Action\":\"sts:AssumeRole\"}]}",
+            "create_date": "2019-10-24T09:46:57Z",
+            "description": "",
+            "force_detach_policies": false,
+            "id": "tweet-collector-role-ucv89lpt",
+            "max_session_duration": 3600,
+            "name": "tweet-collector-role-ucv89lpt",
+            "name_prefix": null,
+            "path": "/service-role/",
+            "permissions_boundary": null,
+            "tags": {},
+            "unique_id": "AROA5KVEAPGYXNQXTOOHN"
+          },
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjAifQ=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_iam_role_policy_attachment",
+      "name": "comprehend-full-access-attach",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "AmazonSageMaker-ExecutionRole-20191022T143324-20191114130935879300000001",
+            "policy_arn": "arn:aws:iam::aws:policy/ComprehendFullAccess",
+            "role": "AmazonSageMaker-ExecutionRole-20191022T143324"
+          },
+          "private": "bnVsbA==",
+          "depends_on": [
+            "aws_iam_role.sagemaker-role"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_iam_role_policy_attachment",
+      "name": "lambda-s3-full-access-attach",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "tweet-collector-role-ucv89lpt-20191114130936313100000004",
+            "policy_arn": "arn:aws:iam::aws:policy/AmazonS3FullAccess",
+            "role": "tweet-collector-role-ucv89lpt"
+          },
+          "private": "bnVsbA==",
+          "depends_on": [
+            "aws_iam_role.tweet-collector-role"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_iam_role_policy_attachment",
+      "name": "lambda-sagemaker-full-access-attachment",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "notebook-activity-monitor-role-8v4m1pyc-20191114130936308600000003",
+            "policy_arn": "arn:aws:iam::aws:policy/AmazonSageMakerFullAccess",
+            "role": "notebook-activity-monitor-role-8v4m1pyc"
+          },
+          "private": "bnVsbA==",
+          "depends_on": [
+            "aws_iam_role.notebook-activity-monitor-role"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_iam_role_policy_attachment",
+      "name": "lambda-secretmanager-read-write-attach",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "tweet-collector-role-ucv89lpt-20191114130936313600000005",
+            "policy_arn": "arn:aws:iam::aws:policy/SecretsManagerReadWrite",
+            "role": "tweet-collector-role-ucv89lpt"
+          },
+          "private": "bnVsbA==",
+          "depends_on": [
+            "aws_iam_role.tweet-collector-role"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_iam_role_policy_attachment",
+      "name": "sagemaker-full-access-attach",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "AmazonSageMaker-ExecutionRole-20191022T143324-20191114130935882700000002",
+            "policy_arn": "arn:aws:iam::aws:policy/AmazonSageMakerFullAccess",
+            "role": "AmazonSageMaker-ExecutionRole-20191022T143324"
+          },
+          "private": "bnVsbA==",
+          "depends_on": [
+            "aws_iam_role.sagemaker-role"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_instance",
+      "name": "amazon-linux",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "ami": "ami-01f14919ba412de34",
+            "arn": "arn:aws:ec2:eu-west-1:916245739953:instance/i-0da25cbd24980d125",
+            "associate_public_ip_address": true,
+            "availability_zone": "eu-west-1c",
+            "cpu_core_count": 1,
+            "cpu_threads_per_core": 1,
+            "credit_specification": [
+              {
+                "cpu_credits": "standard"
+              }
+            ],
+            "disable_api_termination": false,
+            "ebs_block_device": [],
+            "ebs_optimized": false,
+            "ephemeral_block_device": [],
+            "get_password_data": false,
+            "host_id": null,
+            "iam_instance_profile": "ecsInstanceRole",
+            "id": "i-0da25cbd24980d125",
+            "instance_initiated_shutdown_behavior": null,
+            "instance_state": "running",
+            "instance_type": "t2.micro",
+            "ipv6_address_count": 0,
+            "ipv6_addresses": [],
+            "key_name": "amazon-linux-keypair",
+            "monitoring": false,
+            "network_interface": [],
+            "network_interface_id": null,
+            "password_data": "",
+            "placement_group": "",
+            "primary_network_interface_id": "eni-0360d9bad4313a92d",
+            "private_dns": "ip-172-31-12-127.eu-west-1.compute.internal",
+            "private_ip": "172.31.12.127",
+            "public_dns": "ec2-34-241-111-41.eu-west-1.compute.amazonaws.com",
+            "public_ip": "34.241.111.41",
+            "root_block_device": [
+              {
+                "delete_on_termination": true,
+                "encrypted": false,
+                "iops": 100,
+                "kms_key_id": "",
+                "volume_id": "vol-04f4003cd589adbee",
+                "volume_size": 8,
+                "volume_type": "gp2"
+              }
+            ],
+            "security_groups": [
+              "allow-ssh"
+            ],
+            "source_dest_check": true,
+            "subnet_id": "subnet-651f5c03",
+            "tags": {
+              "Name": "amazon-linux"
+            },
+            "tenancy": "default",
+            "timeouts": {
+              "create": null,
+              "delete": null,
+              "update": null
+            },
+            "user_data": null,
+            "user_data_base64": null,
+            "volume_tags": {},
+            "vpc_security_group_ids": [
+              "sg-09ee9775e566411e9"
+            ]
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6MTIwMDAwMDAwMDAwMCwidXBkYXRlIjo2MDAwMDAwMDAwMDB9LCJzY2hlbWFfdmVyc2lvbiI6IjEifQ=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_instance",
+      "name": "amazon-linux-instance",
+      "provider": "provider.aws",
+      "instances": []
+    },
+    {
+      "mode": "managed",
+      "type": "aws_instance",
+      "name": "ubuntu",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "ami": "ami-02df9ea15c1778c9c",
+            "arn": "arn:aws:ec2:eu-west-1:916245739953:instance/i-0b8659b717a7c087c",
+            "associate_public_ip_address": true,
+            "availability_zone": "eu-west-1a",
+            "cpu_core_count": 1,
+            "cpu_threads_per_core": 1,
+            "credit_specification": [
+              {
+                "cpu_credits": "standard"
+              }
+            ],
+            "disable_api_termination": false,
+            "ebs_block_device": [],
+            "ebs_optimized": false,
+            "ephemeral_block_device": [],
+            "get_password_data": false,
+            "host_id": null,
+            "iam_instance_profile": "ecsInstanceRole",
+            "id": "i-0b8659b717a7c087c",
+            "instance_initiated_shutdown_behavior": null,
+            "instance_state": "running",
+            "instance_type": "t2.micro",
+            "ipv6_address_count": 0,
+            "ipv6_addresses": [],
+            "key_name": "amazon-linux-keypair",
+            "monitoring": false,
+            "network_interface": [],
+            "network_interface_id": null,
+            "password_data": "",
+            "placement_group": "",
+            "primary_network_interface_id": "eni-0ce19d71ca2af3127",
+            "private_dns": "ip-172-31-29-222.eu-west-1.compute.internal",
+            "private_ip": "172.31.29.222",
+            "public_dns": "ec2-3-248-223-153.eu-west-1.compute.amazonaws.com",
+            "public_ip": "3.248.223.153",
+            "root_block_device": [
+              {
+                "delete_on_termination": true,
+                "encrypted": false,
+                "iops": 100,
+                "kms_key_id": "",
+                "volume_id": "vol-08e613e73281bad9f",
+                "volume_size": 8,
+                "volume_type": "gp2"
+              }
+            ],
+            "security_groups": [
+              "allow-ssh"
+            ],
+            "source_dest_check": true,
+            "subnet_id": "subnet-19affc51",
+            "tags": {
+              "Name": "ubuntu"
+            },
+            "tenancy": "default",
+            "timeouts": {
+              "create": null,
+              "delete": null,
+              "update": null
+            },
+            "user_data": null,
+            "user_data_base64": null,
+            "volume_tags": {},
+            "vpc_security_group_ids": [
+              "sg-09ee9775e566411e9"
+            ]
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6MTIwMDAwMDAwMDAwMCwidXBkYXRlIjo2MDAwMDAwMDAwMDB9LCJzY2hlbWFfdmVyc2lvbiI6IjEifQ=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_lambda_function",
+      "name": "notebook-activity-monitor",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:lambda:eu-west-1:916245739953:function:notebook-activity-monitor",
+            "dead_letter_config": [],
+            "description": "",
+            "environment": [],
+            "filename": "../lambda-functions/notebook-monitor/lambda/notebook-activity-monitor.zip",
+            "function_name": "notebook-activity-monitor",
+            "handler": "notebook-activity-monitor.lambda_handler",
+            "id": "notebook-activity-monitor",
+            "invoke_arn": "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-1:916245739953:function:notebook-activity-monitor/invocations",
+            "kms_key_arn": "",
+            "last_modified": "2019-11-14T14:44:39.538+0000",
+            "layers": [],
+            "memory_size": 128,
+            "publish": false,
+            "qualified_arn": "arn:aws:lambda:eu-west-1:916245739953:function:notebook-activity-monitor:$LATEST",
+            "reserved_concurrent_executions": -1,
+            "role": "arn:aws:iam::916245739953:role/service-role/notebook-activity-monitor-role-8v4m1pyc",
+            "runtime": "python3.7",
+            "s3_bucket": null,
+            "s3_key": null,
+            "s3_object_version": null,
+            "source_code_hash": "PGHeI7z804ElhQCL+VG1Fz9t4obIwHWT2ZwCphwQ9vI=",
+            "source_code_size": 435,
+            "tags": {},
+            "timeout": 3,
+            "timeouts": {
+              "create": null
+            },
+            "tracing_config": [
+              {
+                "mode": "PassThrough"
+              }
+            ],
+            "version": "$LATEST",
+            "vpc_config": []
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDB9fQ=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_lambda_function",
+      "name": "tweet-collector",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:lambda:eu-west-1:916245739953:function:tweet-collector",
+            "dead_letter_config": [],
+            "description": "",
+            "environment": [],
+            "filename": "../lambda-functions/tweet-collector/lambda/tweet-collector.zip",
+            "function_name": "tweet-collector",
+            "handler": "tweet-collector.lambda_handler",
+            "id": "tweet-collector",
+            "invoke_arn": "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-1:916245739953:function:tweet-collector/invocations",
+            "kms_key_arn": "",
+            "last_modified": "2019-11-14T14:44:53.098+0000",
+            "layers": [
+              "arn:aws:lambda:eu-west-1:916245739953:layer:tweepy_layer:2",
+              "arn:aws:lambda:eu-west-1:916245739953:layer:pandas25-layer:1",
+              "arn:aws:lambda:eu-west-1:399891621064:layer:AWSLambda-Python37-SciPy1x:2"
+            ],
+            "memory_size": 128,
+            "publish": false,
+            "qualified_arn": "arn:aws:lambda:eu-west-1:916245739953:function:tweet-collector:$LATEST",
+            "reserved_concurrent_executions": -1,
+            "role": "arn:aws:iam::916245739953:role/service-role/tweet-collector-role-ucv89lpt",
+            "runtime": "python3.7",
+            "s3_bucket": null,
+            "s3_key": null,
+            "s3_object_version": null,
+            "source_code_hash": "CLI9FqzUEXUxPiloDtiRIusl8i3BeVgvgO0EfEPMLYU=",
+            "source_code_size": 2233,
+            "tags": {},
+            "timeout": 900,
+            "timeouts": {
+              "create": null
+            },
+            "tracing_config": [
+              {
+                "mode": "PassThrough"
+              }
+            ],
+            "version": "$LATEST",
+            "vpc_config": []
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDB9fQ=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_lambda_layer_version",
+      "name": "pandas25-layer",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:lambda:eu-west-1:916245739953:layer:pandas25-layer:1",
+            "compatible_runtimes": [
+              "python3.7"
+            ],
+            "created_date": "2019-10-28T09:41:47.597+0000",
+            "description": "",
+            "filename": null,
+            "id": "arn:aws:lambda:eu-west-1:916245739953:layer:pandas25-layer:1",
+            "layer_arn": "arn:aws:lambda:eu-west-1:916245739953:layer:pandas25-layer",
+            "layer_name": "pandas25-layer",
+            "license_info": "",
+            "s3_bucket": null,
+            "s3_key": null,
+            "s3_object_version": null,
+            "source_code_hash": "HDnMXUK9iz8zA6800z5ziLp2UR+KwXUv7HwK4WsOzp0=",
+            "source_code_size": 15611427,
+            "version": "1"
+          },
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjAifQ=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_lambda_layer_version",
+      "name": "tweepy_layer",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:lambda:eu-west-1:916245739953:layer:tweepy_layer:2",
+            "compatible_runtimes": [
+              "python3.6",
+              "python3.7"
+            ],
+            "created_date": "2019-10-03T10:20:59.308+0000",
+            "description": "",
+            "filename": null,
+            "id": "arn:aws:lambda:eu-west-1:916245739953:layer:tweepy_layer:2",
+            "layer_arn": "arn:aws:lambda:eu-west-1:916245739953:layer:tweepy_layer",
+            "layer_name": "tweepy_layer",
+            "license_info": "",
+            "s3_bucket": null,
+            "s3_key": null,
+            "s3_object_version": null,
+            "source_code_hash": "6N1KQipdh625mkHkk+D/HBYHL22Qd4WObgF2hlYHNLY=",
+            "source_code_size": 798217,
+            "version": "2"
+          },
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjAifQ=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_s3_bucket",
+      "name": "ops-vw-interns-climate-perception-tweets",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "acceleration_status": "",
+            "acl": "private",
+            "arn": "arn:aws:s3:::ops-vw-interns-climate-perception-tweets",
+            "bucket": "ops-vw-interns-climate-perception-tweets",
+            "bucket_domain_name": "ops-vw-interns-climate-perception-tweets.s3.amazonaws.com",
+            "bucket_prefix": null,
+            "bucket_regional_domain_name": "ops-vw-interns-climate-perception-tweets.s3.eu-west-1.amazonaws.com",
+            "cors_rule": [],
+            "force_destroy": false,
+            "hosted_zone_id": "Z1BKCTXD74EZPE",
+            "id": "ops-vw-interns-climate-perception-tweets",
+            "lifecycle_rule": [],
+            "logging": [],
+            "object_lock_configuration": [],
+            "policy": null,
+            "region": "eu-west-1",
+            "replication_configuration": [],
+            "request_payer": "BucketOwner",
+            "server_side_encryption_configuration": [],
+            "tags": {},
+            "versioning": [
+              {
+                "enabled": false,
+                "mfa_delete": false
+              }
+            ],
+            "website": [],
+            "website_domain": null,
+            "website_endpoint": null
+          },
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_sagemaker_notebook_instance",
+      "name": "Twitter-sentiment-analysis",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:sagemaker:eu-west-1:916245739953:notebook-instance/twitter-sentiment-analysis",
+            "id": "Twitter-sentiment-analysis",
+            "instance_type": "ml.t2.large",
+            "kms_key_id": "",
+            "lifecycle_config_name": "sm-notebook-conf",
+            "name": "Twitter-sentiment-analysis",
+            "role_arn": "arn:aws:iam::916245739953:role/service-role/AmazonSageMaker-ExecutionRole-20191022T143324",
+            "security_groups": [],
+            "subnet_id": "",
+            "tags": {}
+          },
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjAifQ=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_sagemaker_notebook_instance_lifecycle_configuration",
+      "name": "sm-notebook-conf",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:sagemaker:eu-west-1:916245739953:notebook-instance-lifecycle-config/sm-notebook-conf",
+            "id": "sm-notebook-conf",
+            "name": "sm-notebook-conf",
+            "on_create": "",
+            "on_start": "../notebook-lifecycle/script/sm-lifecycle-conf.sh"
+          },
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_security_group",
+      "name": "allow-ssh",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:eu-west-1:916245739953:security-group/sg-09ee9775e566411e9",
+            "description": "Managed by Terraform",
+            "egress": [
+              {
+                "cidr_blocks": [
+                  "192.168.56.188/32"
+                ],
+                "description": "",
+                "from_port": 22,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 22
+              }
+            ],
+            "id": "sg-09ee9775e566411e9",
+            "ingress": [
+              {
+                "cidr_blocks": [
+                  "192.168.56.188/32"
+                ],
+                "description": "",
+                "from_port": 22,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 22
+              }
+            ],
+            "name": "allow-ssh",
+            "name_prefix": null,
+            "owner_id": "916245739953",
+            "revoke_rules_on_delete": false,
+            "tags": {},
+            "timeouts": null,
+            "vpc_id": "vpc-222d3b44"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6NjAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0="
+        }
+      ]
+    }
+  ]
+}

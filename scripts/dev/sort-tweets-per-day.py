@@ -19,7 +19,6 @@ for file in s3_tweets:
     day = filename.split()[0]
     day = day.split('s')[1]
     temp_df = pd.read_json('s3://{}/{}'.format(bucketname, file.key))
-    
     temp_json = temp_df.to_dict(orient = 'records')
     temp_json = json.dumps(temp_json, default=str)
     s3_client.put_object(
