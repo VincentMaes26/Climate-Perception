@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "version": "1.0.0",
-    "title": "classifier-model-api",
+    "title": "classifier-model-api"
   },
   "servers": [
     {
@@ -16,7 +16,6 @@
     }
   ],
   "paths": {
-    # Logistic regression model endpoint
     "/logistic-regression-predict": {
       "post": {
         "tags": [
@@ -39,7 +38,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "OK"
           },
           "400": {
             "description": "Failed. Bad post data."
@@ -47,7 +46,6 @@
         }
       }
     },
-    # multinomial naive bayes model endpoint
     "/multinomial-naive-bayes-predict":{
       "post": {
         "tags": [
@@ -70,7 +68,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "OK"
           },
           "400": {
             "description": "Failed. Bad post data."
@@ -78,7 +76,6 @@
         }
       }
     },
-    # multinomial naive bayes model endpoint
     "/decision-tree-predict":{
       "post": {
         "tags": [
@@ -101,7 +98,37 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "OK"
+          },
+          "400": {
+            "description": "Failed. Bad post data."
+          }
+        }
+      }
+    },
+    "/random-forest-predict":{
+      "post": {
+        "tags": [
+          "Classifier models"
+        ],
+        "summary": "Get the sentiment of the input text",
+        "requestBody": {
+          "description": "Input text",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/postTextBody"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           },
           "400": {
             "description": "Failed. Bad post data."

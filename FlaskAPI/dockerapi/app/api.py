@@ -74,5 +74,12 @@ def PredictDT():
     prediction = get_prediction(dt)
     return prediction
 
+@app.route('/random-forest-predict', methods=['POST'])
+def PredictRF():
+    with open('models/rf.joblib', 'rb') as f:
+        rf = joblib.load(f)
+    prediction = get_prediction(rf)
+    return prediction
+
 if __name__ == '__main__':
     app.run(host = '0.0.0.0', port = 80, debug = True)
